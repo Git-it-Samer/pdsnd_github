@@ -11,9 +11,9 @@ with the application of filters and viewing specific data that the user chooses.
 ### Files used
 The files used for this project include:
 
-  -washington.csv
-  -chicago.csv
-  -new_york_city.csv
+  * washington.csv
+  * chicago.csv
+  * new_york_city.csv
 
 ### Credits
 For the display_raw_data function, I got help with json material from w3resource.com and its pandas dataframes section.
