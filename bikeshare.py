@@ -18,32 +18,33 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid         inputs
-    # Applying this filter will run repeatedly until user input is recognized. 
+    # Applying this filter will run repeatedly until user input is recognized.
     while True:
         # Applying the lower method below will create a standardization for user input and if the first letter is               capitalized, it will be recognized either way.
-        city = input('\nWould you like to explore data for Chicago, New York City or Washington?\n')
+        print('\nWhich city would you like to explore data for?')
+        city = input('1. Chicago 2. New York City 3. Washington\n').lower()
         if city.lower() not in CITY_DATA.keys():
             print('Input\’s invalid, please select one of the three cities provided')
         else:
             city = city.lower()
-            # Breaking the loop will carry this statement over to the proceeding statements. 
+            # Breaking the loop will carry this statement over to the proceeding statements.
             break
-    # Used title method to capitalize the first letter of user's answers for consistency, especially since city names       are involved. 
+    # Used title method to capitalize the first letter of user's answers for consistency, especially since city names       are involved.
     print('You chose {} '.format(city.title()))
 
     # TO DO: get user input for month (all, january, february, ... , june)
     # A dictionary is made to simplify accessing month data, including the option of 'all'.
-    MONTH_DATA = {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6, 'all': 7} 
+    MONTH_DATA = {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6, 'all': 7}
     while True:
         month = input('\nWhich month(s), between January and June, would you like to see data for? If you want all months, please type ‘all’.\n')
         if month.lower() not in MONTH_DATA.keys():
             print('Input\’s invalid, please select a month between January and June or ‘all’.')
         else:
             month = month.lower()
-            break    
-     
-    print('You chose {} '.format(month.title()))            
-    
+            break
+
+    print('You chose {} '.format(month.title()))
+
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     # A dictionary was also made for the days of the week, enabling another source to filter.
     DAY_DATA = {'monday': 0, 'tuesday': 1, 'wednesday': 2, 'thursday': 3, 'friday': 4, 'saturday': 5, 'sunday': 6,  'all': 7}
@@ -54,7 +55,7 @@ def get_filters():
         else:
             day = day.lower()
             break
-    
+
     print('You chose {} '.format(month.title()))
 
     print('-'*40)
@@ -86,9 +87,9 @@ def load_data(city, month, day):
         month = months.index(month) + 1
         #New dataframe enables filtering by month.
         df = df[df['month'] == month]
- 
+
     if day != 'all':
-        # New dataframe enables filtering by weekdays. 
+        # New dataframe enables filtering by weekdays.
         df = df[df['day_of_week'] == day.title()]
 
     # The files chosen will be called as a statement and returned as a dataframe.
@@ -144,7 +145,7 @@ def station_stats(df):
     # The results will transfer into a new column, 'Start To End'. Mode was used as well to find the most frequent         result.
     common_combination = df['Start To End'].mode()[0]
     print('The most frequent combination of start and end station trip: {}'.format(common_combination))
-   
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -157,7 +158,7 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     # TO DO: display total travel time
-    # The total travel time is calculated with the sum method. 
+    # The total travel time is calculated with the sum method.
     total_duration = df['Trip Duration'].sum()
     print('Total travel time: {}'.format(total_duration))
 
@@ -182,12 +183,12 @@ def user_stats(df):
     print('User Types\n', user_types)
 
     # TO DO: Display counts of gender
-    # Used the if loop, since the 'Gender' column doesn't exist in the washington.csv file. 
+    # Used the if loop, since the 'Gender' column doesn't exist in the washington.csv file.
     if 'Gender' in df.columns:
         # Genders are categorized and then quantified with the value_counts method.
         gender_counts = df['Gender'].value_counts()
         print('\nThe counts of each gender type:\n', gender_counts)
-        
+
     else:
         print('\nThere are no columns for the value in the file.')
 
@@ -201,26 +202,26 @@ def user_stats(df):
         print('\nThe earliest year of birth: {}'.format(earliest_year))
         print('The most recent year of birth: {}'.format(recent_year))
         print('The most common year of birth: {}'.format(common_year))
-        
+
     else:
         print('\nThere are no columns for the value in the file.')
-       
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-    
+
 
 def display_raw_data(df):
     """Displays 5 rows of raw data for the csv file for the selected city. User has choice to view, as well as an           additional 5 rows until no longer desired"""
-    
+
     row_length = df.shape[0]
 
     # iterate from 0 to the number of rows in intervals of 5
     for i in range(0, row_length, 5):
-        
+
         yes = input('\nDo you want to see 5 lines of the raw data? Type \'yes\' or \'no\'\n> ')
         if yes.lower() != 'yes':
             break
-        
+
         # Retrieved and converted data to json format and spliting each json row of data with the split method.
         # Used 'W3resource' as guidance in using Pandas DataFrame with json
         raw_data = df.iloc[i: i + 5].to_json(orient='records', lines=True).split('\n')
@@ -230,7 +231,7 @@ def display_raw_data(df):
             json_row = json.dumps(parsed_row, indent=2)
             print(json_row)
 
-    
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -249,4 +250,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
