@@ -47,7 +47,7 @@ def get_filters():
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     # A dictionary was also made for the days of the week, enabling another source to filter.
-    DAY_DATA = {'monday': 0, 'tuesday': 1, 'wednesday': 2, 'thursday': 3, 'friday': 4, 'saturday': 5, 'sunday': 6,  'all': 7}
+    DAY_DATA = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',  'all']
     while True:
         day = input('\nWhich day(s) of the week would you like to see data for? If you want all days, please type ‘all’.\n')
         if day not in DAY_DATA.keys():
@@ -56,7 +56,7 @@ def get_filters():
             day = day.lower()
             break
 
-    print('You chose {} '.format(month.title()))
+    print('You chose {} '.format(day.title()))
 
     print('-'*40)
     return city, month, day
