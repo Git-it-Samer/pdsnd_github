@@ -82,7 +82,7 @@ def load_data(city, month, day):
     df['day_of_week'] = df['Start Time'].dt.weekday_name
     # An if loop was used for filtering months and day.
     if month != 'all':
-        # An index for the months was created as well as adding 1 to access corresponding integer, since the first             element is recognized as 0 in Python.
+        # An index for the months was created as well as adding 1 to access corresponding integer, since the first element is recognized as 0 in Python.
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
         #New dataframe enables filtering by month.
@@ -97,8 +97,12 @@ def load_data(city, month, day):
 
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+    """
+    Displays statistics on the most frequent times of travel.
 
+    Args:
+        df: The dataframe of your choosing.
+    """
     print('\nCalculating The Most Frequent Times of Travel...\n')
     # Time method was used to convert time into seconds.
     start_time = time.time()
@@ -124,8 +128,12 @@ def time_stats(df):
 
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+    """
+    Displays statistics on the most popular stations and trip.
 
+    Args:
+        df: The dataframe of your choosing.
+    """
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
@@ -142,7 +150,7 @@ def station_stats(df):
     # TO DO: display most frequent combination of start station and end station trip
     # Combined the 'Start Station' and 'End Station' columns in the DataFrame by using str.cat
     df['Start To End'] = df['Start Station'].str.cat(df['End Station'], sep=', ')
-    # The results will transfer into a new column, 'Start To End'. Mode was used as well to find the most frequent         result.
+    # The results will transfer into a new column, 'Start To End'. Mode was used as well to find the most frequent result.
     common_combination = df['Start To End'].mode()[0]
     print('The most frequent combination of start and end station trip: {}'.format(common_combination))
 
@@ -152,8 +160,12 @@ def station_stats(df):
 
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+    """
+    Displays statistics on the total and average trip duration.
 
+    Args:
+        df: The dataframe of your choosing.
+    """
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
@@ -172,8 +184,12 @@ def trip_duration_stats(df):
 
 
 def user_stats(df):
-    """Displays statistics on bikeshare users."""
+    """
+    Displays statistics on bikeshare users.
 
+    Args:
+        df: The dataframe of your choosing.
+    """
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
