@@ -1,0 +1,108 @@
+/* Query 1 – query used for first insight */
+
+WITH t1 AS (
+     SELECT c.name AS genre, COUNT(cu.customer_id) AS total_demand_rent
+     FROM category c
+     JOIN film_category fc
+     ON c.category_id = fc.category_id
+     JOIN film f
+     ON fc.film_id = f.film_id
+     JOIN inventory i
+     ON f.film_id = i.film_id
+     JOIN rental r
+     ON i.inventory_id = r.inventory_id
+     JOIN customer cu
+     ON r.customer_id = cu.customer_id
+     GROUP BY 1
+     ORDER BY 2 DESC),
+
+     t2 AS (
+     SELECT c.name AS genre, SUM(p.amount) AS total_sales
+     FROM category c
+     JOIN film_category fc
+     ON c.category_id = fc.category_id
+     JOIN film f
+     ON fc.film_id = f.film_id
+     JOIN inventory i
+     ON f.film_id = i.film_id
+     JOIN rental r
+     ON i.inventory_id = r.inventory_id
+     JOIN payment p
+     ON r.rental_id = p.rental_id
+     GROUP BY 1
+     ORDER BY 2 DESC)
+
+SELECT t1.genre, t1.total_demand_rent, t2.total_sales
+FROM t1
+JOIN t2
+ON t1.genre = t2.genre;
+
+/* Query 2 – query used for second insight */
+
+WITH t1 AS (
+     SELECT *, DATE_PART('day', return_date - rental_date + INTERVAL '1 day') AS
+       	    date_difference
+     FROM rental),
+
+     t2 AS (
+     SELECT f.rental_duration, date_difference, CASE
+     	    WHEN f.rental_duration > date_difference THEN 'returned early'
+     	    WHEN f.rental_duration = date_difference THEN 'returned on time'
+     	    ELSE 'returned late' END AS return_status
+     FROM film f
+     JOIN inventory i
+     ON f.film_id = i.film_id
+     JOIN t1
+     ON t1.inventory_id = i.inventory_id)
+
+SELECT t2.return_status, COUNT(*) AS no_of_films
+FROM t2
+GROUP BY 1
+ORDER BY 2 DESC;
+
+/* Query 3 – query used for third insight */
+
+SELECT c.country, COUNT(DISTINCT cu.customer_id) AS customer_base,
+       SUM(p.amount) AS total_sales
+FROM country c
+JOIN city ct
+ON c.country_id = ct.country_id
+JOIN address a
+ON ct.city_id = a.city_id
+JOIN customer cu
+ON cu.address_id = a.address_id
+JOIN payment p
+ON p.customer_id = cu.customer_id
+GROUP BY 1
+ORDER BY 2 DESC;
+
+/* Query 4 – query used for fourth insight */
+
+WITH  t1 AS (
+      SELECT (first_name || ' ' || last_name) AS name, c.customer_id, p.amount,
+             p.payment_date
+      FROM customer c
+      JOIN payment p
+      ON c.customer_id = p.customer_id),
+
+      t2 AS (
+      SELECT t1.customer_id
+      FROM t1
+      GROUP BY 1
+      ORDER BY SUM(t1.amount) DESC
+      LIMIT 10),
+
+      t3 AS (
+      SELECT t1.name, DATE_TRUNC('month', t1.payment_date) AS pay_mon,
+	     COUNT(*) AS pay_count_per_mon, SUM(t1.amount) AS pay_amount
+      FROM t1
+      JOIN t2
+      ON t1.customer_id = t2.customer_id
+      WHERE t1.payment_date BETWEEN '20070101' AND '20070501'
+      GROUP BY 1, 2
+      ORDER BY 1, 3, 2)
+
+SELECT t3.name, t3.pay_mon, t3.pay_amount,
+          ROUND(AVG(t3.pay_amount) OVER (PARTITION BY t3.name), 2) AS avg_amount
+FROM t3
+ORDER BY 1, 2;
