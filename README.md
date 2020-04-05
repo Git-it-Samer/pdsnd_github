@@ -1,3 +1,23 @@
+Project 1 - DVD Rentals
+
+### Date created
+January 27, 2020
+
+### Project Title
+DVD Rentals Database
+
+### Description
+In this project, students will use SQL to explore a database related to movie rentals. They'll write SQL code to run SQL queries and answer interesting questions about the database. As part of the project submission, students will run SQL queries and build visualizations to showcase the output of their queries. The Sakila Database holds information about a company that rents movie DVDs. Students will be querying the database to gain an understanding of the customer base, such as what the patterns in movie watching are across different customer groups, how they compare on payment earnings, and how the stores compare in their performance.
+
+### Files used
+The files used for this project include:
+
+  * DVD Rental ER Diagram
+  * Sakilla Database
+
+
+Project 2 - Bikeshare Data
+
 ### Date created
 March 13, 2020
 
