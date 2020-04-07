@@ -1,4 +1,6 @@
-Project 1 - DVD Rentals
+# Udacity Data Science Nanodegree Course
+
+## Project 1 - DVD Rentals
 
 ### Date created
 January 27, 2020
@@ -16,7 +18,7 @@ The files used for this project include:
   * Sakilla Database
 
 
-Project 2 - Bikeshare Data
+## Project 2 - Bikeshare Data
 
 ### Date created
 March 13, 2020
